@@ -9,6 +9,10 @@ exports.test = function (req, res) {
 //ceate
 exports.product_create = function (req, res) {
     
+    if(!req.body.name) return res.send({error: "input name"});
+    if(!req.body.price) return res.send({error: "input price"});
+    if(isNaN(req.body.price)) return res.send({error: "input numeric value in price"});
+
     let product = new Product(
         {
             name: req.body.name,
@@ -24,6 +28,8 @@ exports.product_create = function (req, res) {
 
 // find by id
 exports.product_details = function (req, res) {
+    if(!req.params.id) return res.send({error: "input id"});
+
     Product.findById(req.params.id, function (err, product) {
         if (err) return res.send("No se encontró el producto solicitado");
         res.send(product);
@@ -32,6 +38,12 @@ exports.product_details = function (req, res) {
 
 //update
 exports.product_update = function (req, res) {
+
+    if(!req.params.id) return res.send({error: "input id"});
+    if(!req.body.name) return res.send({error: "input name"});
+    if(!req.body.price) return res.send({error: "input price"});
+    if(isNaN(req.body.price)) return res.send({error: "input numeric value in price"});
+
     Product.findByIdAndUpdate(req.params.id, {$set: req.body}, function (err, product) {
         if (err) return res.send("No fue posible actualizar, porque No se encontró el producto solicitado");
         res.send('Product udpated.');
@@ -40,6 +52,9 @@ exports.product_update = function (req, res) {
 
 //delete
 exports.product_delete = function (req, res) {
+
+    if(!req.params.id) return res.send({error: "input id"});
+
     Product.findByIdAndRemove(req.params.id, function (err) {
         if (err) return next(err);
         res.send('Deleted successfully!');

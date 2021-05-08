@@ -13,9 +13,9 @@ router.post('/', product_controller.product_create);
 //read one
 router.get('/:id', product_controller.product_details);
 //update
-router.put('/:id', product_controller.product_update);
+router.put('/:id?', product_controller.product_update);
 //delete
-router.delete('/:id', product_controller.product_delete);
+router.delete('/:id?', product_controller.product_delete);
 //all
 router.get('/', product_controller.product_all);
 
